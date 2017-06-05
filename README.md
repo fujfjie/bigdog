@@ -6,9 +6,12 @@
 >后端表配置：
 >>数据库链接配置请调整：dbConfig
 >>后端表结构
->>>db：metadata，
+>>>db：metadata
+
 CREATE DATABASE metadata CHARSET utf8 COLLATE utf8_general_ci;
+
 >>>员工信息表
+
  CREATE TABLE metadata.`bigdog_staff_info` (
   `staff_id` int(11) NOT NULL COMMENT '员工ID',
   `staff_name` varchar(64) COLLATE utf8_bin DEFAULT NULL COMMENT '员工名称',
@@ -18,6 +21,7 @@ CREATE DATABASE metadata CHARSET utf8 COLLATE utf8_general_ci;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='员工信息表';
 
 >>>规则 信息表
+
 CREATE TABLE metadata.`bigdog_rule_info` (
   `rule_id` int(11) NOT NULL COMMENT '规则ID',
   `rule_name` varchar(64) COLLATE utf8_bin DEFAULT NULL COMMENT '规则名称',
@@ -36,6 +40,7 @@ INSERT INTO `bigdog_rule_info` VALUES ('10008', 'MONTH', '月', now());
 INSERT INTO `bigdog_rule_info` VALUES ('10009', 'HOUR', '时', now());
 
 >>>发送邮件账户, 注意 dbConfig文件中SQLDICT['pushMailInfo']的program_name写死为bigdog
+
 CREATE TABLE metadata.`meta_push_mail` (
   `program_id` int(11) NOT NULL AUTO_INCREMENT,
   `program_name` varchar(64) NOT NULL COMMENT '程序工程名称',
@@ -50,6 +55,7 @@ CREATE TABLE metadata.`meta_push_mail` (
 ) ENGINE=InnoDB AUTO_INCREMENT=10005 DEFAULT CHARSET=utf8 COMMENT='发送邮件账户';
 
 >>>调度组信息表
+
 CREATE TABLE metadata.`bigdog_group_info` (
   `group_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '组ID',
   `group_name` varchar(64) COLLATE utf8_bin DEFAULT NULL COMMENT '组名称',
@@ -62,6 +68,7 @@ CREATE TABLE metadata.`bigdog_group_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=199902 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='调度组信息表';
 
 >>>员工与调度组关系表
+
 CREATE TABLE metadata.`bigdog_group_staff_rela` (
   `group_id` int(11) DEFAULT NULL COMMENT '组ID',
   `staff_id` int(11) DEFAULT NULL COMMENT '员工ID',
@@ -73,6 +80,7 @@ CREATE TABLE metadata.`bigdog_group_staff_rela` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='员工与组关系表';
 
 >>>job信息表
+
 CREATE TABLE metadata.`bigdog_job_info` (
   `group_id` int(11) DEFAULT NULL COMMENT '组信息ID -- bigdog.meta_group_info',
   `job_id` int(11) NOT NULL COMMENT 'JOB ID',
@@ -94,6 +102,7 @@ CREATE TABLE metadata.`bigdog_job_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='job信息表';
 
 >>>job 关系表
+
 CREATE TABLE metadata.`bigdog_job_rela` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `start_job_id` int(11) DEFAULT NULL COMMENT '开始jobid',
@@ -104,6 +113,7 @@ CREATE TABLE metadata.`bigdog_job_rela` (
 ) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='job 关系表';
 
 >>>job与员工关系表,若未配置异常将发送给调度用户
+
 CREATE TABLE metadata.`bigdog_job_staff_rela` (
   `job_id` int(11) DEFAULT NULL COMMENT 'job ID',
   `staff_id` int(11) DEFAULT NULL COMMENT '员工ID',
@@ -115,6 +125,7 @@ CREATE TABLE metadata.`bigdog_job_staff_rela` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='job与员工关系表';
 
 >>>调度组日志信息表
+
 CREATE TABLE metadata.`bigdog_log_group_info` (
   `group_id` int(11) DEFAULT NULL COMMENT '组ID',
   `record_day` int(11) DEFAULT NULL COMMENT '记录日期',
@@ -129,6 +140,7 @@ CREATE TABLE metadata.`bigdog_log_group_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='组日志信息表';
 
 >>>job日志信息表
+
 CREATE TABLE metadata.`bigdog_log_job_info` (
   `group_id` int(11) NOT NULL COMMENT '组ID',
   `job_id` int(11) NOT NULL COMMENT 'JOBID',
@@ -145,6 +157,7 @@ CREATE TABLE metadata.`bigdog_log_job_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='job日志信息表';
 
 >>>试图 job与员工聚合表
+
 CREATE VIEW metadata.bigdog_view_job_staff_rela AS
 SELECT b.job_id AS job_id,
        group_concat(a.staff_mail SEPARATOR ',') AS mail_list
@@ -155,6 +168,7 @@ SELECT b.job_id AS job_id,
  GROUP BY b.job_id
 
 >>>试图 调度组与员工聚合表
+
 CREATE VIEW metadata.bigdog_view_group_staff_rela AS
 SELECT b.group_id AS group_id,
        group_concat(a.staff_mail SEPARATOR ',') AS mail_list
@@ -165,6 +179,7 @@ SELECT b.group_id AS group_id,
  GROUP BY b.group_id
 
 >>>试图 job信息表
+
 CREATE VIEW metadata.bigdog_view_job_info AS
 SELECT a.group_id AS group_id,
        a.job_id AS job_id,
@@ -189,6 +204,7 @@ SELECT a.group_id AS group_id,
    AND b.status_id = 0
 
 >>>试图 job关系
+
 CREATE VIEW bigdog_view_job_rela AS
 SELECT CASE WHEN a.start_job_id = '' OR a.start_job_id = 0 THEN NULL ELSE a.start_job_id END AS start_job_id,
        a.end_job_id AS end_job_id,
