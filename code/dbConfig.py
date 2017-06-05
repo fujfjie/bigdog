@@ -5,7 +5,7 @@
     :file: dbConfig.py
     :time: 2017/03/13
 """
-DBINFO = ['fujun', 'fujun20170322$', 'metadata', '3306', 'yunjireport.mysql.rds.aliyuncs.com']
+DBINFO = [dbType, dbUser, dbUserPasswd, dbName, port, host, charSet]
 SQLDICT = {
     'pushMailInfo':'''select mail_host,
                              mail_user,

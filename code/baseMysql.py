@@ -7,9 +7,9 @@
 """
 import traceback, pymysql
 
-def getConnet(userName, passWord, dbName, port, host):
+def getConnet(userName, passWord, dbName, port, host, charset):
     try:
-        db = pymysql.connect(host=host, port=int(port), user=userName, passwd=passWord, db=dbName)
+        db = pymysql.connect(host=host, port=int(port), user=userName, passwd=passWord, db=dbName, charset=charset)
         return db
     except:
         errors = traceback.format_exc()
@@ -17,10 +17,10 @@ def getConnet(userName, passWord, dbName, port, host):
         print(errors)
         return "-99999"
 
-def select(userName, passWord, dbName, port, host, sql):
+def select(userName, passWord, dbName, port, host, charset, sql):
     try:
         #print(sql)
-        db = getConnet(userName, passWord, dbName, port, host)
+        db = getConnet(userName, passWord, dbName, port, host, charset)
         cur = db.cursor()
         cur.execute(sql)
         result = cur.fetchall()
@@ -33,10 +33,10 @@ def select(userName, passWord, dbName, port, host, sql):
         print(errors)
         return "-99999"
 
-def insertDeteleUpdate(userName, passWord, dbName, port, host, sql):
+def insertDeteleUpdate(userName, passWord, dbName, port, host, charset, sql):
     try:
         #print(sql)
-        db = getConnet(userName, passWord, dbName, port, host)
+        db = getConnet(userName, passWord, dbName, port, host, charset)
         cur = db.cursor()
         cur.execute(sql)
         db.commit()
@@ -49,9 +49,9 @@ def insertDeteleUpdate(userName, passWord, dbName, port, host, sql):
         print(errors)
         return "-99999"
 
-def createDrop(userName, passWord, dbName, port, host, sql):
+def createDrop(userName, passWord, dbName, port, host, charset, sql):
     try:
-        db = getConnet(userName, passWord, dbName, port, host)
+        db = getConnet(userName, passWord, dbName, port, host, charset)
         cursor = db.cursor()
         cursor.execute(sql)
         cursor.close()
@@ -62,3 +62,4 @@ def createDrop(userName, passWord, dbName, port, host, sql):
         print('baseMysql[createDrop]---> is errors')
         print(errors)
         return "-99999"
+

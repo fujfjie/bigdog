@@ -39,13 +39,12 @@ def getDeleteStartJobRela(vGroupId, vDate, vSnapshot, jobId):
 def getOraleInfo():
     try: 
         global STARTJOBRELATIONDICT, JOBRELATIONDICT, JOBINFODICT, GROUPINFO, PUSHMAIL
-        dbUserName, dbUserPassWord, dbName, dbPort, dbHost = dbConfig.DBINFO[0:]
-        dbType = 'mysql'
+        dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset = dbConfig.DBINFO[0:]
         for key, value in dbConfig.SQLDICT.items():
             if key == "JOBINFO":
                 sqlName = value.format(metaInfo.getvSnapshot(), metaInfo.getvGroupId(), metaInfo.getvDate())
                 #print(sqlName)
-                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, sqlName)
+                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset, sqlName)
                 for i in sqlResult:
                     jobId, jobName, jobPath, executeTime, executeDay, retryCount, ruleName, mailList, statusId = i
                     if jobId not in JOBINFODICT.keys():
@@ -55,7 +54,7 @@ def getOraleInfo():
             elif key == "STARTJOBRELATION":
                 sqlName = value.format(metaInfo.getvGroupId())
                 #print(sqlName)
-                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, sqlName)
+                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset, sqlName)
                 for i in sqlResult:
                     startJobId, jobList = i
                     if startJobId not in STARTJOBRELATIONDICT.keys():
@@ -68,7 +67,7 @@ def getOraleInfo():
                 #print(STARTJOBRELATIONDICT)
             elif key == 'pushMailInfo':
                 sqlName = value
-                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, sqlName)
+                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset, sqlName)
                 for i in sqlResult:
                     mailHost, mailUser, mailUserHead, mailUserPassword, mailPort, mailSubject = i
                     pc = passwordAes.prpcrypt('f$Jun%big@Dog!fisher.jie') 
@@ -77,7 +76,7 @@ def getOraleInfo():
             elif key == "JOBRELATION":
                 sqlName = value.format(metaInfo.getvGroupId())
                 #print(sqlName)
-                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, sqlName)
+                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset, sqlName)
                 for i in sqlResult:
                     startJobId, jobList = i
                     if startJobId not in JOBRELATIONDICT.keys():
@@ -90,7 +89,7 @@ def getOraleInfo():
             elif key == "GROUPINFO":
                 sqlName = value.format(metaInfo.getvGroupId())
                 #print(sqlName)
-                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, sqlName)
+                sqlResult = dbConnet.select(dbType, dbUserName, dbUserPassWord, dbName, dbPort, dbHost, charset, sqlName)
                 for i in sqlResult:
                     groupName, parallelNums, retryCount, mainList = i
                     GROUPINFO = [groupName, parallelNums, retryCount, mainList]

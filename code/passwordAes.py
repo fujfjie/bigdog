@@ -32,5 +32,6 @@ class prpcrypt():
         return plain_text.rstrip('\0')
 
 #pc = prpcrypt('f$Jun%big@Dog!fisher.jie')
-#print(pc.encrypt('850918@wy'))
-#print(pc.decrypt(pc.encrypt('850918@wy')))
+#pcR = pc.encrypt('Liao123654')
+#print(pcR)
+#print(pc.decrypt(pcR))
