@@ -1,3 +1,3 @@
 # bigdog
 调度项目
-![](https://github.com/fujfjie/bigdog/raw/master/total.png
+[![](/raw/master/total.png "现实现依赖关系图")][bigdog]
